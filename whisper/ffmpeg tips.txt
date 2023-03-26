@@ -1,0 +1,34 @@
+== combine files ==
+batch command: 
+ > (for %i in (*.mp4) do @echo file '%i') > mylist.txt 
+produces mylist.txt with format:
+file '1v2.mp4'
+file '2v2.mp4'
+file '3v2.mp4'
+
+ > ffmpeg -f concat -i mylist.txt -c copy output.mp4 
+
+
+
+
+
+== trim mp4 ==
+ffmpeg -i 1.mp4 -ss 00:00:00 -to 00:01:21.234 -c copy 1v2.mp4
+
+
+== mp4 from mp3 file ==
+ffmpeg -f lavfi -i color=c=gray:s=1280x720 -i input.mp3 -shortest -fflags +shortest output.mp4
+
+== mp4 from mp3 using an image
+./ffmpeg.exe -loop 1 -i art.png -i art.mp3 -c:v libx264 -tune stillimage -vf -c:a copy -shortest out.mp4 -y
+
+== mp4 from mp3 using an image (for big images)
+./ffmpeg.exe -loop 1 -i art.png -i art.mp3 -c:v libx264 -tune stillimage -vf scale=iw/5:ih/5 -c:a copy -shortest out.mp4 -y
+
+
+== mp4 to audio ==
+ ./ffmpeg -i '.\index-dvr (720p_aac).mp4' -ss 03:25:00 -to 04:59:50 -vn -acodec copy output-audio.aac
+
+
+== extract video from mkv ==
+ffmpeg -i infile.mkv -vcodec copy -acodec copy outfile.mp4

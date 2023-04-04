@@ -19,7 +19,18 @@ Write-Host "Working directory: $loc"
 
 # attempt to create mp4 files
 # using still image for all mp3 files in the directory
-$files = Get-ChildItem $loc -filter *.mp3
+
+# set file extension
+do {
+    $fileExtension = Read-Host "Input extension (ex: mp3, etc)"
+    Write-Host "Using file extension: $fileExtension"
+    $files = Get-ChildItem $loc -filter "*.$fileExtension"
+    Write-Host "Files found: " $files.count
+}
+while($fileExtension.Length -eq 0 -or $files.Length -eq 0)
+
+$continue = Read-Host "Continue? (Y/N)"
+
 foreach ($file in $files) {
   $outfile = $file.BaseName + ".mp4"
   Write-Host "$file | $outfile"
@@ -54,7 +65,7 @@ foreach ($file in $files) {
   $inputFilePath = $loc + "\" + $file
   $outFilePath = $loc + "\" + $outfile
   Write-Debug "$inputFilePath | $outFilePath"
-  Write-Host "Creating mp4 from mp3 and image: $file >> $outfile"
+  Write-Host "Creating mp4 from audio and image: $file >> $outfile"
   ../ffmpeg.exe -loglevel info -loop 1 -i $artFile -i $inputFilePath -c:v libx264 -tune stillimage -vf $scale -c:a copy -shortest $outFilePath -y
 }
 

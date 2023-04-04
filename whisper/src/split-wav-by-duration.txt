@@ -1,5 +1,6 @@
 # 5min split
 .\mkvmerge.exe --split duration:00:05:00 .\input.wav -o output.wav
+.\mkvmerge.exe --split duration:00:01:00 .\input.wav -o output.wav
 
 
 # 10min split

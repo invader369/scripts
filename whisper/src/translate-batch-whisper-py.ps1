@@ -31,7 +31,7 @@ if ($loc.Length -eq 0) {
 Write-Host "Working directory: $loc"
 Write-Host "Searching for split .wav files"
 
-$files = Get-ChildItem $loc -filter *-0*.wav
+$files = Get-ChildItem $loc -filter *-*.wav
 $runOnTheseFiles = runOnTheseFiles($files)
 
 if ($files.count -eq 0 -or !$runOnTheseFiles) {
